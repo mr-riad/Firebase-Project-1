@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "714363337344",
+    "project_id": "adib-pharmacy",
+    "storage_bucket": "adib-pharmacy.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:714363337344:android:e70f0eaea7fc9aef9ec465",
+        "android_client_info": {
+          "package_name": "com.example.adib_pharmacy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5SU3AzQlCTov_XCGnjYjMAQew1jroDCs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:714363337344:android:6777f0258ee41fe89ec465",
+        "android_client_info": {
+          "package_name": "com.example.firebase_project1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5SU3AzQlCTov_XCGnjYjMAQew1jroDCs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
