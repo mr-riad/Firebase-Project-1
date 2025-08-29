@@ -8,15 +8,26 @@ class MatchDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(matchId)),
+      appBar: AppBar(
+        title: const Text("Match Details"),
+        backgroundColor: Colors.blue,
+      ),
       body: FutureBuilder<DocumentSnapshot>(
-        future: FirebaseFirestore.instance.collection("matches").doc(matchId).get(),
+        future: FirebaseFirestore.instance
+            .collection("matches")
+            .doc(matchId)
+            .get(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          var match = snapshot.data!;
+          if (!snapshot.hasData || !snapshot.data!.exists) {
+            return const Center(child: Text("No Match Found"));
+          }
+
+          var data = snapshot.data!.data() as Map<String, dynamic>;
+
           return Center(
             child: Card(
               margin: const EdgeInsets.all(20),
@@ -26,14 +37,76 @@ class MatchDetailScreen extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text("${match['team1']} vs ${match['team2']}",
-                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 10),
-                    Text("${match['score1']} : ${match['score2']}",
-                        style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 10),
-                    Text("Time : ${match['runningTime']}"),
-                    Text("Total Time : ${match['totalTime']}"),
+                    Text(
+                      "${data['team1']} vs ${data['team2']}",
+                      style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade50,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.green, width: 2),
+                      ),
+                      child: Text(
+                        "${data['score1']} : ${data['score2']}",
+                        style: const TextStyle(
+                          fontSize: 36,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          children: [
+                            const Icon(Icons.timer, color: Colors.blue),
+                            const SizedBox(height: 5),
+                            Text(
+                              "Running Time",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                            Text(
+                              data['runningTime'],
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            const Icon(Icons.access_time, color: Colors.orange),
+                            const SizedBox(height: 5),
+                            Text(
+                              "Total Time",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                            Text(
+                              data['totalTime'],
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
